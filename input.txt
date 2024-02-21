@@ -1,0 +1,35 @@
+   .pos 0
+    irmovq stack, %rsp 
+    call main              
+    halt                    
+
+    .align 4
+array:
+    .long 0x000d000d
+    .long 0x00c000c0
+    .long 0x0b000b00
+    .long 0xa000a000
+
+main:
+    irmovq array, %rdi
+    irmovq $4, %rsi
+    call sum            
+    ret
+
+sum:
+    irmovq $8, %rcx     
+    irmovq $1, %rdx      
+    xorq %rax, %rax        
+    andq %rsi, %rsi        
+    jmp test                
+loop:
+    mrmovq (%rdi), %rbx    
+    addq %rbx, %rax        
+    addq %rcx, %rdi         
+    subq %rdx, %rsi         
+test:
+    jne loop               
+    ret                     
+
+    .pos 0x200
+stack:
