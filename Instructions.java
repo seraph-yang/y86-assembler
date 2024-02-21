@@ -8,6 +8,9 @@ public class Instructions {
         //flags(1) is SF
         //flags(2) is OF
 
+    //TODO should we add program status here or in program counter? 
+    //i think it should either be an enum or a bitset
+
     public Instructions(){
         populate();
         flags.clear(); //sets all flags to false
@@ -29,7 +32,7 @@ public class Instructions {
         aRegisters[12] = "r12";
         aRegisters[13] = "r13";
         aRegisters[14] = "r14";
-        aRegisters[15] = "r15";//TODO omit this
+        aRegisters[15] = "r15";//indicates no register
 
         //how to output register names into machine code? 
        /* registers[0] = "0000";
@@ -47,11 +50,10 @@ public class Instructions {
         registers[12] = "1100";
         registers[13] = "1101";
         registers[14] = "1110";
-        registers[15] = "1111";//TODO omit this
+        registers[15] = "1111";//indicates no register
         */
     }
 
-    //TODO make these
     //TODO should dests be long??
     public static void halt(){
 
@@ -59,9 +61,33 @@ public class Instructions {
     public static void nop(){
 
     }
-    public static void cmovXX(String rA, String rB){//TODO should register parameters be strings?? depends on fetch/execute code
+
+    //cmovXX
+    public static void rrmovq(int rA, int rB){//TODO should register parameters be strings?? 
+        //i think we should have a method to convert from names to indices before these methods
+        //depends on fetch/execute code
+        
+    }
+    public static void cmovle(String rA, String rB){
 
     }
+    public static void cmovl(String rA, String rB){
+
+    }
+    public static void cmove(String rA, String rB){
+
+    }    
+    public static void cmovne(String rA, String rB){
+
+    }
+    public static void cmovge(String rA, String rB){
+
+    }
+    public static void cmovg(String rA, String rB){
+
+    }
+
+
     public static void irmovq(int V, String rB){//TODO what is v??? address in memory??
 
     }
@@ -86,9 +112,29 @@ public class Instructions {
 
     }
     
-    public static void jXX(int d){
+    //jXX
+    public static void jmp(int d){
 
     }
+    public static void jle(int d){
+
+    }
+    public static void jl(int d){
+
+    }
+    public static void je(int d){
+
+    }
+    public static void jne(int d){
+
+    }
+    public static void jge(int d){
+
+    }
+    public static void jg(int d){
+
+    }
+
     public static void call(int d){
 
     }
