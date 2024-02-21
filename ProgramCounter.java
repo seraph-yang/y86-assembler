@@ -1,4 +1,6 @@
 public class ProgramCounter{
-    byte[] memory = new byte[10000];
+    public static byte[] memory = new byte[10000];
+
+    
 
 }
