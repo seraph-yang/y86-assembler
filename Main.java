@@ -11,7 +11,7 @@ public class Main {
         String input = "input.txt";
         List<List<String>> instructions = getInstructions(input);
         for(List<String> s:instructions) {
-          for(string str:s) {
+          for(String str:s) {
             System.out.println(str);
           }
         }
