@@ -8,10 +8,15 @@ public class Instructions {
         //flags(1) is SF
         //flags(2) is OF
 
+    public List<Integer> bytes;
+    public int index = 0;
+    public int alignment = 8;
+
     //TODO should we add program status here or in program counter? 
     //i think it should either be an enum or a bitset
 
-    public Instructions(){
+    public Instructions() {
+        this.bytes = new ArrayList<Integer>();
         populate();
         flags.clear(); //sets all flags to false
     }
@@ -54,42 +59,86 @@ public class Instructions {
         */
     }
 
+    public void pos(int x) {
+        for(int j = this.index; j < i; j++) {
+            if(this.bytes.size() <= j) {
+                this.bytes.add(j, 0);
+            }
+        }
+        this.index = 1;
+    }
+
+    public void align(int x) {
+        this.alignment = x;
+    }
+
+    public void long(long x) {
+        long copy = x;
+        Array<List> digits = new ArrayList<Integer>();
+
+        while(temp > 0) {
+            digits.add(0, (int) temp % 256);
+            temp /= 256;
+        }
+
+        for(Integer digit:digits) {
+            this.bytes.add(this.index, digit);
+            this.index++;
+        }
+    }
+
+    public int merge(int a, int b) {
+        return (a << 4) + b;
+    }
+
     //TODO should dests be long??
     public static void halt(){
-
+        this.bytes.add(this.index, (0x00));
+        this.index++;
     }
-    public static void nop(){
 
+    public static void nop(){
+        this.bytes.add(this.index, (0x10));
+        this.index++;
+    }
+    // le-1
+    // l-2
+    // e-3
+    // ne-4
+    // ge-5
+    // g-6
+    public static void cmovle(){
+        this.bytes.add(this.index, merge(0x2, 1));
+        this.index++;
+    }
+    public static void cmovl() {
+        this.bytes.add(this.index, merge(0x2, 2));
+        this.index++;
+    }
+    public static void cmove() {
+        this.bytes.add(this.index, merge(0x2, 3));
+        this.index++;
+    }    
+    public static void cmovne() {
+        this.bytes.add(this.index, merge(0x2, 4));
+        this.index++;
+    }
+    public static void cmovge() {
+        this.bytes.add(this.index, merge(0x2, 5));
+        this.index++;
+    }
+    public static void cmovg() {
+        this.bytes.add(this.index, merge(0x2, 6));
+        this.index++;
     }
 
     //cmovXX
     public static void rrmovq(int rA, int rB){//TODO should register parameters be strings?? 
         //i think we should have a method to convert from names to indices before these methods
         //depends on fetch/execute code
-        
     }
-    public static void cmovle(String rA, String rB){
-
-    }
-    public static void cmovl(String rA, String rB){
-
-    }
-    public static void cmove(String rA, String rB){
-
-    }    
-    public static void cmovne(String rA, String rB){
-
-    }
-    public static void cmovge(String rA, String rB){
-
-    }
-    public static void cmovg(String rA, String rB){
-
-    }
-
 
     public static void irmovq(int V, String rB){//TODO what is v??? address in memory??
-
     }
     public static void rmmovq(String rA, String rB, int d){// TODO do we need both rB and D??
 
@@ -139,7 +188,8 @@ public class Instructions {
 
     }
     public static void ret(){
-
+        this.bytes.add(this.index, (0x90));
+        this.index++;
     }
     public static void pushq(String rA){
 
